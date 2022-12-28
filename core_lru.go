@@ -12,7 +12,7 @@ func NewLRU[K comparable, V any](cap int) *LRU[K, V] {
 		cap = 1
 	}
 	return &LRU[K, V]{
-		list:  new(list[K]),
+		list:  newList[K](),
 		items: make(map[K]cacheItem[K, V]),
 		cap:   cap,
 	}

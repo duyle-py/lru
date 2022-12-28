@@ -7,3 +7,6 @@
   - Get(key)
   - Remove(key)
   - Purge()
+
+
+- Test some above functions
