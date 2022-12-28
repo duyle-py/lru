@@ -1,17 +1,17 @@
 package main
 
 // Not support type-safe
-type LRU[K comparable, V any] struct {
+type CoreLRU[K comparable, V any] struct {
 	list  *list[K]
 	items map[K]cacheItem[K, V]
 	cap   int
 }
 
-func NewLRU[K comparable, V any](cap int) *LRU[K, V] {
+func NewLRU[K comparable, V any](cap int) *CoreLRU[K, V] {
 	if cap <= 0 {
 		cap = 1
 	}
-	return &LRU[K, V]{
+	return &CoreLRU[K, V]{
 		list:  newList[K](),
 		items: make(map[K]cacheItem[K, V]),
 		cap:   cap,
@@ -19,7 +19,7 @@ func NewLRU[K comparable, V any](cap int) *LRU[K, V] {
 }
 
 // Return true if an empty is evited
-func (cache *LRU[K, V]) Add(key K, value V) (evicted bool) {
+func (cache *CoreLRU[K, V]) Add(key K, value V) (evicted bool) {
 	item, ok := cache.items[key]
 
 	if ok {
@@ -39,17 +39,17 @@ func (cache *LRU[K, V]) Add(key K, value V) (evicted bool) {
 	return true
 }
 
-func (cache *LRU[K, V]) Len() int {
+func (cache *CoreLRU[K, V]) Len() int {
 	return len(cache.items)
 }
 
 // Peek return the value without mark the key is latest
-func (cache *LRU[K, V]) Peek(key K) (V, bool) {
+func (cache *CoreLRU[K, V]) Peek(key K) (V, bool) {
 	item, ok := cache.items[key]
 	return item.value, ok
 }
 
-func (cache *LRU[K, V]) Get(key K) (V, bool) {
+func (cache *CoreLRU[K, V]) Get(key K) (V, bool) {
 	item, ok := cache.items[key]
 
 	if !ok {
@@ -60,7 +60,7 @@ func (cache *LRU[K, V]) Get(key K) (V, bool) {
 	return item.value, ok
 }
 
-func (cache *LRU[K, V]) Remove(key K) bool {
+func (cache *CoreLRU[K, V]) Remove(key K) bool {
 	item, ok := cache.items[key]
 	if ok {
 		delete(cache.items, key)
@@ -69,7 +69,7 @@ func (cache *LRU[K, V]) Remove(key K) bool {
 	return ok
 }
 
-func (cache *LRU[K, V]) Purge() {
+func (cache *CoreLRU[K, V]) Purge() {
 	cache.list = newList[K]()
 	for k := range cache.items {
 		delete(cache.items, k)
