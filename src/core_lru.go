@@ -1,4 +1,4 @@
-package main
+package src
 
 // Not support type-safe
 type CoreLRU[K comparable, V any] struct {
