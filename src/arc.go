@@ -76,8 +76,6 @@ func (c *cacheARC[K, V]) Add(key K, val V) bool {
 	return ok
 }
 
-//TODO
-
 // Element request
 // Case 1:
 //
